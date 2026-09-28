@@ -3,7 +3,9 @@ using MediatR;
 using OrderService.Api.Features.Orders.Commands.CancelOrder;
 using OrderService.Api.Features.Orders.Commands.CreateOrder;
 using OrderService.Api.Features.Orders.Queries.GetOrderById;
+using OrderService.Api.Features.Orders.Queries.GetOrderList;
 using Shared.Extensions;
+using Shared.Pagination;
 
 namespace OrderService.Api.Features.Orders;
 
@@ -22,6 +24,11 @@ public static class OrderEndpoints
             .WithApiVersionSet(versionSet)
             .WithTags("Orders")
             .WithOpenApi();
+
+        group.MapGet("/", GetList)
+            .WithName("GetOrders")
+            .WithSummary("Sipariş listesini sayfalı döner")
+            .Produces<PagedResult<OrderListDto>>();
 
         group.MapGet("/{id:int}", GetById)
             .WithName(GetOrderByIdRoute)
@@ -44,6 +51,9 @@ public static class OrderEndpoints
 
         return app;
     }
+
+    private static async Task<IResult> GetList([AsParameters] GetOrderListQuery query, ISender sender, CancellationToken ct)
+        => (await sender.Send(query, ct)).ToHttpResult();
 
     private static async Task<IResult> GetById(int id, ISender sender, CancellationToken ct)
         => (await sender.Send(new GetOrderByIdQuery(id), ct)).ToHttpResult();

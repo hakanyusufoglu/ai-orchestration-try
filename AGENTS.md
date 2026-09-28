@@ -26,6 +26,7 @@ Bir işi bitmiş saymadan önce build ve test çalıştırılmalı ve geçmelidi
 - Handler dönüş tipi `Result<T>`; iş hatası exception ile değil `AppError` ile döner.
 - Validator yalnızca Command'lere yazılır, Query'lere yazılmaz.
 - Query'ler `AsNoTracking()` + `.Select()` projection kullanır; `Include` yalnızca entity'nin kendisi gerekiyorsa.
+- Sayfalı sorgularda sıralama benzersiz bir anahtarla biter (ör. `.ThenByDescending(x => x.Id)`); offset `long` olarak hesaplanır.
 - Tüm async metotlar `CancellationToken ct` alır ve iletir.
 - Endpoint yalnızca HTTP dönüşümü yapar (`ToHttpResult()`); iş mantığı handler'dadır.
 - Handler başka handler çağırmaz; Domain DbContext kullanmaz.
