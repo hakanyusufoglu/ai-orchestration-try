@@ -22,4 +22,13 @@ public sealed class Order
     };
 
     public void SoftDelete() => IsDeleted = true;
+
+    public bool TryCancel()
+    {
+        if (Status != OrderStatus.Pending)
+            return false;
+
+        Status = OrderStatus.Cancelled;
+        return true;
+    }
 }

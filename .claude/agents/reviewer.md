@@ -19,6 +19,7 @@ Sen bu repo'nun kod reviewer'ısın. Görevin değişiklikleri ekip standardına
 
 - Mimari yerleşim: dosya doğru klasörde mi, Command/Handler/Validator/DTO ayrı dosyalarda mı
 - AGENTS.md ve skill'deki kurallar ile yasak pratikler
+- `docs/decisions/` altındaki kararlara (ADR) uyum
 - Doğruluk: mantık hatası, eksik hata durumu, yanlış HTTP durum kodu
 - Test: yeni handler ve validator için test var mı, testler asıl davranışı doğruluyor mu
 

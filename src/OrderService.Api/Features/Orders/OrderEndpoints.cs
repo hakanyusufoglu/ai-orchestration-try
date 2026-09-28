@@ -1,5 +1,6 @@
 using Asp.Versioning;
 using MediatR;
+using OrderService.Api.Features.Orders.Commands.CancelOrder;
 using OrderService.Api.Features.Orders.Commands.CreateOrder;
 using OrderService.Api.Features.Orders.Queries.GetOrderById;
 using Shared.Extensions;
@@ -34,6 +35,13 @@ public static class OrderEndpoints
             .Produces<int>(StatusCodes.Status201Created)
             .ProducesProblem(StatusCodes.Status422UnprocessableEntity);
 
+        group.MapPost("/{id:int}/cancel", Cancel)
+            .WithName("CancelOrder")
+            .WithSummary("Bekleyen siparişi iptal eder")
+            .Produces(StatusCodes.Status204NoContent)
+            .ProducesProblem(StatusCodes.Status404NotFound)
+            .ProducesProblem(StatusCodes.Status409Conflict);
+
         return app;
     }
 
@@ -45,5 +53,12 @@ public static class OrderEndpoints
         var result = await sender.Send(cmd, ct);
         if (result.IsFailure) return result.ToHttpResult();
         return Results.CreatedAtRoute(GetOrderByIdRoute, new { id = result.Value, version = "1" }, new { id = result.Value });
+    }
+
+    private static async Task<IResult> Cancel(int id, ISender sender, CancellationToken ct)
+    {
+        var result = await sender.Send(new CancelOrderCommand(id), ct);
+        if (result.IsFailure) return result.ToHttpResult();
+        return Results.NoContent();
     }
 }
