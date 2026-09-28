@@ -71,7 +71,7 @@ ADR ölçütü: "Bu karar gelecekteki başka feature'ları etkiler mi?" Evetse A
 Dur ve onay iste. Onay gelince:
 
 1. Kullanıcının onayladığı ADR'leri `docs/decisions/NNNN-kisa-baslik.md` olarak yaz (mevcut ADR'lerin formatını örnek al, numarayı sıradaki yap).
-2. Değişiklikleri branch'e şu formatta commit'le:
+2. Değişiklikleri branch'e şu formatta commit'le. Mesajı geçici bir dosyaya yaz ve `git commit -F <dosya>` kullan; `-m` ile verilen çok satırlı mesajlar tırnak içerince Windows PowerShell'de bölünür.
 
 ```
 <İngilizce, emir kipinde kısa başlık>
