@@ -1,6 +1,7 @@
 using Asp.Versioning;
 using MediatR;
 using OrderService.Api.Features.Orders.Commands.CancelOrder;
+using OrderService.Api.Features.Orders.Commands.CompleteOrder;
 using OrderService.Api.Features.Orders.Commands.CreateOrder;
 using OrderService.Api.Features.Orders.Queries.GetOrderById;
 using Shared.Extensions;
@@ -42,6 +43,13 @@ public static class OrderEndpoints
             .ProducesProblem(StatusCodes.Status404NotFound)
             .ProducesProblem(StatusCodes.Status409Conflict);
 
+        group.MapPost("/{id:int}/complete", Complete)
+            .WithName("CompleteOrder")
+            .WithSummary("Bekleyen siparişi tamamlar")
+            .Produces(StatusCodes.Status204NoContent)
+            .ProducesProblem(StatusCodes.Status404NotFound)
+            .ProducesProblem(StatusCodes.Status409Conflict);
+
         return app;
     }
 
@@ -58,6 +66,13 @@ public static class OrderEndpoints
     private static async Task<IResult> Cancel(int id, ISender sender, CancellationToken ct)
     {
         var result = await sender.Send(new CancelOrderCommand(id), ct);
+        if (result.IsFailure) return result.ToHttpResult();
+        return Results.NoContent();
+    }
+
+    private static async Task<IResult> Complete(int id, ISender sender, CancellationToken ct)
+    {
+        var result = await sender.Send(new CompleteOrderCommand(id), ct);
         if (result.IsFailure) return result.ToHttpResult();
         return Results.NoContent();
     }

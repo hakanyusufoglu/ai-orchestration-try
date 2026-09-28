@@ -31,4 +31,13 @@ public sealed class Order
         Status = OrderStatus.Cancelled;
         return true;
     }
+
+    public bool TryComplete()
+    {
+        if (Status != OrderStatus.Pending)
+            return false;
+
+        Status = OrderStatus.Completed;
+        return true;
+    }
 }
