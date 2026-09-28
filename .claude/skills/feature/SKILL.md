@@ -12,7 +12,7 @@ Sen bu akışta orchestrator'sın. Kodu kendin yazmazsın; işi planlar, subagen
 ## 1. Keşif
 
 - Çalışma alanı temiz değilse (`git status --porcelain` boş değilse) dur ve kullanıcıya ne yapılacağını sor.
-- `AGENTS.md` dosyasını oku ve özellikle ilgili mevcut kodu incele. Kapsam birkaç dosyayı aşıyorsa keşfi `Explore` subagent'ına yaptır.
+- `AGENTS.md` dosyasını ve `docs/decisions/` altındaki ilgili kararları oku, özellikle ilgili mevcut kodu incele. Kapsam birkaç dosyayı aşıyorsa keşfi `Explore` subagent'ına yaptır.
 
 ## 2. Plan — ⛔ ONAY 1
 
@@ -63,6 +63,26 @@ Akış: <isteğin izlediği yol, ör. POST /orders/{id}/cancel → OrderEndpoint
 Build/Test: <sonuç>
 Review: <ONAY / tur sayısı>; 🟡/🔵 bulgular: <liste veya "yok">
 Kural önerileri: <reviewer'ın önerileri veya "yok">
+ADR önerileri: <aşağıdaki ölçüte uyan kararlar veya "yok">
 ```
 
-Dur ve onay iste. Onay gelince değişiklikleri branch'e commit'le. Push etme, merge etme.
+ADR ölçütü: "Bu karar gelecekteki başka feature'ları etkiler mi?" Evetse ADR önerilir. Skill'de veya AGENTS.md'de zaten kural olan, ya da yalnızca bu feature'a özgü kararlar ADR olmaz.
+
+Dur ve onay iste. Onay gelince:
+
+1. Kullanıcının onayladığı ADR'leri `docs/decisions/NNNN-kisa-baslik.md` olarak yaz (mevcut ADR'lerin formatını örnek al, numarayı sıradaki yap).
+2. Değişiklikleri branch'e şu formatta commit'le:
+
+```
+<İngilizce, emir kipinde kısa başlık>
+
+Davranış: <tek satır>
+
+Kararlar:
+- <plan aşamasında alınan her karar ve kısa gerekçesi>
+
+Değişiklik haritası:
+- <dosya yolu> — <ne işe yarar>
+```
+
+Push etme, merge etme.

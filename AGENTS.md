@@ -19,6 +19,7 @@ Bir işi bitmiş saymadan önce build ve test çalıştırılmalı ve geçmelidi
 - `src/OrderService.Api/Domain/` — entity'ler (private setter, factory metot, davranış metotları) ve enum'lar.
 - `src/OrderService.Api/Infrastructure/Persistence/` — AppDbContext ve entity configuration'ları.
 - `tests/OrderService.Tests/Features/{Feature}/` — handler ve validator testleri.
+- `docs/decisions/` — mimari kararlar (ADR). Plan yapmadan veya ilgili alanda kod yazmadan önce oku; bir karara aykırı iş gerekiyorsa önce kullanıcıya sor.
 
 ## Temel kurallar
 
