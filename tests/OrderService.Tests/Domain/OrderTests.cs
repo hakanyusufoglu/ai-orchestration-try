@@ -28,4 +28,51 @@ public sealed class OrderTests
         cancelled.Should().BeFalse();
         order.Status.Should().Be(OrderStatus.Cancelled);
     }
+
+    [Fact]
+    public void TryCancel_CompletedOrder_ReturnsFalseAndKeepsStatus()
+    {
+        var order = Order.Create("Ada", 150m, DateTime.UtcNow);
+        order.TryComplete();
+
+        var cancelled = order.TryCancel();
+
+        cancelled.Should().BeFalse();
+        order.Status.Should().Be(OrderStatus.Completed);
+    }
+
+    [Fact]
+    public void TryComplete_PendingOrder_ReturnsTrueAndCompletes()
+    {
+        var order = Order.Create("Ada", 150m, DateTime.UtcNow);
+
+        var completed = order.TryComplete();
+
+        completed.Should().BeTrue();
+        order.Status.Should().Be(OrderStatus.Completed);
+    }
+
+    [Fact]
+    public void TryComplete_CancelledOrder_ReturnsFalseAndKeepsStatus()
+    {
+        var order = Order.Create("Ada", 150m, DateTime.UtcNow);
+        order.TryCancel();
+
+        var completed = order.TryComplete();
+
+        completed.Should().BeFalse();
+        order.Status.Should().Be(OrderStatus.Cancelled);
+    }
+
+    [Fact]
+    public void TryComplete_CompletedOrder_ReturnsFalseAndKeepsStatus()
+    {
+        var order = Order.Create("Ada", 150m, DateTime.UtcNow);
+        order.TryComplete();
+
+        var completed = order.TryComplete();
+
+        completed.Should().BeFalse();
+        order.Status.Should().Be(OrderStatus.Completed);
+    }
 }
